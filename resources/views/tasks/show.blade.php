@@ -12,7 +12,11 @@
             <td>{{ $task_view->id }}</td>
         </tr>
         <tr>
-            <th>メッセージ</th>
+            <th>ステータス</th>
+            <td>{{ $task_view->status }}</td>
+        </tr>
+        <tr>
+            <th>タスク</th>
             <td>{{ $task_view->content }}</td>
         </tr>
     </table>

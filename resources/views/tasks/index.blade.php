@@ -10,6 +10,7 @@
             <thead>
                 <tr>
                     <th>id</th>
+                    <th>ステータス</th>
                     <th>タスク</th>
                 </tr>
             </thead>
@@ -19,6 +20,7 @@
                 <tr>
                    {{-- メッセージ詳細ページへのリンク --}}
                     <td>{!! link_to_route('tasks.show', $task->id, ['task' => $task->id]) !!}</td>
+                    <td>{{ $task->status }}</td>
                     <td>{{ $task->content }}</td>
                 </tr>
                 @endforeach
@@ -26,7 +28,7 @@
         </table>
     @endif
 
-    {{-- メッセージ作成ページへのリンク --}}
-    {!! link_to_route('tasks.create', '新規メッセージの投稿', [], ['class' => 'btn btn-primary']) !!}
+    {{-- メッセージ作成ページへのリンク  下のボタン--}}
+    {!! link_to_route('tasks.create', '新規タスクの追加', [], ['class' => 'btn btn-primary']) !!}
     
 @endsection
