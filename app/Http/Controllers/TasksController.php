@@ -6,19 +6,39 @@ use Illuminate\Http\Request;
 
 use App\Task;
 
+
+
+
 class TasksController extends Controller
 {
     // getでmessages/にアクセスされた場合の「一覧表示処理」
     public function index()
     {
         //
-        // メッセージ一覧を取得
-        $tasks_controller= Task::all();
+        $data = [];
+        if (\Auth::check()) { // 認証済みの場合
+            // 認証済みユーザを取得
+            $user = \Auth::user();
+            // ユーザの投稿の一覧を作成日時の降順で取得
+            $tasks = $user->tasks()->orderBy('created_at', 'desc')->paginate(10);
 
-        // メッセージ一覧ビューでそれを表示
-        return view('tasks.index', [  //resources/views/Task/index.blade.php
-            'task_view' => $tasks_controller,
-        ]);
+            $data = [
+                'user' => $user,
+                'tasks' => $tasks,
+            ];
+        }
+        
+        return view('tasks.index', $data);
+        
+        // Welcomeビューでそれらを表示
+        
+        // メッセージ一覧を取得
+        // $tasks_controller= Task::all();
+
+        //メッセージ一覧ビューでそれを表示
+        // return view('tasks.index', [  //resources/views/Task/index.blade.php
+        //     'task_view' => $tasks,
+        // ]);
     }
 
     // getでmessages/createにアクセスされた場合の「新規登録画面表示処理」
@@ -44,21 +64,49 @@ class TasksController extends Controller
             'status' => 'required|max:10', 
             'content' => 'required|max:255',
         ]);
-
+        
+       
+        
         // メッセージを作成
-        $task_controller = new Task;
-        $task_controller->status = $request->status;  
-        $task_controller->content = $request->content;
-        $task_controller->save();
+        // $task_controller = new Task;
+        // $task_controller->status = $request->status;  
+        // $task_controller->content = $request->content;
+        // $task_controller->save();
+        
+        $request->user()->tasks()->create([
+            'status' => $request->status,
+            'content' => $request->content,
+        ]);
+        
+        // $request->user()->tasks()->create([
+        //     'content' => $request->content,
+        // ]);
+        
+        
+        
 
+        // 前のURLへリダイレクトさせる
+        return back();
         // トップページへリダイレクトさせる
-        return redirect('/');
+        // return redirect('/');
+        // return view('tasks.index', $data);
+        
+        
     }
 
     // getでmessages/（任意のid）にアクセスされた場合の「取得表示処理」
     public function show($id)
     {
-        //
+        // //
+        // idの値でユーザを検索して取得
+       
+
+        // ユーザ詳細ビューでそれを表示
+        
+        
+        
+        
+        
         // idの値でメッセージを検索して取得
         $task_controller = Task::findOrFail($id);
 

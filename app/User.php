@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','user_id',
     ];
 
     /**
@@ -36,4 +36,18 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    
+    
+    // このユーザが所有するタスク。（ Micropostモデルとの関係を定義）
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
+    
+    
+    // このユーザに関係するモデルの件数をロードする。
+    public function loadRelationshipCounts()
+    {
+        $this->loadCount('tasks');
+    }
 }
