@@ -10,14 +10,17 @@ class CreateMessagesTable extends Migration
      * Run the migrations.
      *
      * @return void
+     * $table->unsignedBigInteger('user_id');
      */
     public function up()
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('content'); 
             $table->unsignedBigInteger('user_id');
+            $table->string('content'); 
             $table->timestamps();
+            
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
