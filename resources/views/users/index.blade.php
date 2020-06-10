@@ -2,5 +2,5 @@
 
 @section('content')
     {{-- ユーザのログイン後の画面 --}}
-    <!--@include('users.users')-->
+    @include('users.users')
 @endsection
